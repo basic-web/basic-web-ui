@@ -1,0 +1,40 @@
+{
+  "name": "basic-web-ui",
+  "authors": [
+    "Yang XuePing"
+  ],
+  "description": "basic web ui for admin platform",
+  "keywords": [
+    "basic",
+    "web",
+    "html",
+    "template",
+    "admin",
+    "bootstrap",
+    "theme",
+    "backend",
+    "responsive"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "devDependencies": {
+    "jquery": "^2.2.3",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.1",
+    "fastclick": "^1.0.6",
+    "nprogress": "^0.2.0",
+    "bootstrap-progressbar": "^0.9.0",
+    "iCheck": "icheck#^1.0.2",
+    "parsleyjs": "^2.3.10",
+    "normalize-css": "^4.1.1",
+    "validator": "https://github.com/yairEO/validator.git#^1.0.6",
+    "pnotify": "^3.0.0",
+    "echarts": "^3.1.7",
+    "animate.css": "^3.5.1"
+  },
+  "resolutions": {
+    "jquery": "^2.2.3",
+    "fastclick": "^1.0.6"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "basic web ui",
+  "version": "0.0.1",
+  "description": "basic web ui for admin platform",
+  "scripts": {
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basic-web/basic-web-ui.gitt"
+  },
+  "keywords": [
+    "basic",
+    "web",
+    "html",
+    "template",
+    "admin",
+    "bootstrap",
+    "theme",
+    "backend",
+    "responsive"
+  ],
+  "author": "Yang XuePing",
+  "contributors": [
+    "Yang XuePing"
+  ],
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-ruby-sass": "^2.0.6",
+    "gulp-uglify": "^1.5.3"
+  }
+}
