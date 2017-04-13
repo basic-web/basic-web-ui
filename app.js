@@ -5,6 +5,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const debug = require('debug')('basic-web-ui:app');
 
 const app = express();
 
@@ -37,5 +38,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, function() {
-  console.log('Server listening on 3000.')
+  debug('Listening on ' + 3000);
 });
