@@ -1,13 +1,14 @@
 {
-  "name": "basic web ui",
+  "name": "basic-web-ui",
   "version": "0.0.1",
   "description": "basic web ui for admin platform",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/basic-web/basic-web-ui.gitt"
+    "url": "git+https://github.com/basic-web/basic-web-ui.git"
   },
   "keywords": [
     "basic",
@@ -31,5 +32,13 @@
     "gulp-rename": "^1.2.2",
     "gulp-ruby-sass": "^2.0.6",
     "gulp-uglify": "^1.5.3"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "ejs": "^2.5.6",
+    "express": "~4.15.2",
+    "morgan": "~1.8.1"
   }
 }
