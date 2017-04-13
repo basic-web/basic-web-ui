@@ -36,4 +36,6 @@ app.use((err, req, res, next) => {
   res.send('Server Internal Error');
 });
 
-module.exports = app;
+app.listen(3000, function() {
+  console.log('Server listening on 3000.')
+});
