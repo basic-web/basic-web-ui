@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'static')));
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Hello basic web ui.')
 });
 
@@ -33,7 +33,7 @@ app.use((err, req, res, next) => {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   res.status(err.status || 500);
-  res.render('Server Internal Error');
+  res.send('Server Internal Error');
 });
 
 module.exports = app;
