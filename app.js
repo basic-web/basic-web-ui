@@ -5,6 +5,10 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const config = require('./config');
+const debug = require('debug')('basic-web-ui:app');
 
 const app = express();
 
@@ -18,8 +22,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'static')));
 
+app.use(session({
+  store: new RedisStore({
+    host: config.redis.host,
+    port: config.redis.port,
+    ttl: config.session.ttl
+  }),
+  resave: false,
+  saveUninitialized: true,
+  secret: config.session.secret,
+  cookie: { secure: true }
+}));
+
 app.get('/', (req, res) => {
-    res.send('Hello basic web ui.')
+  res.send('Hello basic web ui.')
 });
 
 app.use((req, res, next) => {
@@ -36,4 +52,6 @@ app.use((err, req, res, next) => {
   res.send('Server Internal Error');
 });
 
-module.exports = app;
+app.listen(3000, function () {
+  debug('Listening on ' + 3000);
+});
