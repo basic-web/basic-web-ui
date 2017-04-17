@@ -1,4 +1,7 @@
 const config = {
+    app: {
+        name: 'Basic Web UI!'
+    },
     redis: {
         host: 'redis',
         port: '6379'
