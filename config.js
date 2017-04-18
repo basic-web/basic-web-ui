@@ -11,6 +11,9 @@ const config = {
     session: {
         secret: 'safd2#$d&323_Fe@r15OopWk',
         ttl: 86400
+    },
+    service: {
+        base: 'http://basic-service:9000'
     }
 };
 

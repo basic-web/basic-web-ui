@@ -14,6 +14,7 @@
     <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
     <link href="/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link href="/vendors/noty/lib/noty.css" rel="stylesheet">
     <link href="/css/custom.min.css" rel="stylesheet">
 </head>
 
@@ -93,6 +94,30 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/vendors/noty/lib/noty.js" ></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#login_button').click(function() {
+            $.ajax({
+                url: '/login',
+                method: 'POST',
+                dataType: 'JSON',
+                data: $('#login_form').serialize(),
+                error: function(res) {
+                    new Noty({
+                        type: 'error',
+                        text: res.responseJSON.message,
+                        layout: 'topCenter'
+                    }).show();
+                },
+                success: function(data) {
+                    location.href = '/dashboard';
+                }
+            });
+        });
+    });
+    </script>
 </body>
 
 </html>
