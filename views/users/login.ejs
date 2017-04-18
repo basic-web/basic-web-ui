@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <%= title || 'Basic web'%>
+    </title>
+
+    <link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link href="/vendors/noty/lib/noty.css" rel="stylesheet">
+    <link href="/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="login">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form id="login_form">
+                        <h1>登录</h1>
+                        <div>
+                            <input type="text" class="form-control" placeholder="Phone" required="" />
+                        </div>
+                        <div>
+                            <input type="password" class="form-control" placeholder="Password" required="" />
+                        </div>
+                        <div>
+                            <button class="btn btn-default submit" id="login_button">登录</button>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <p class="change_link">还没有账户?
+                                <a href="#signup" class="to_register"> 立即创建 </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div>
+                                <h1><i class="fa fa-paw"></i> <%= title || 'Basic web'%></h1>
+                                <p>©2017 All Rights Reserved.</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <div id="register" class="animate form registration_form">
+                <section class="login_content">
+                    <form id="registration_form">
+                        <h1>注册</h1>
+                        <div>
+                            <input type="text" class="form-control" placeholder="Nickname" required="" />
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" placeholder="Phone" required="" />
+                        </div>
+                        <div>
+                            <input type="password" class="form-control" placeholder="Password" required="" />
+                        </div>
+                        <div>
+                            <button class="btn btn-default submit" id="registration_button">注册</button>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <p class="change_link">已经用户账户 ?
+                                <a href="#signin" class="to_register"> 直接登录 </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div>
+                                <h1><i class="fa fa-paw"></i> <%= title || 'Basic web'%></h1>
+                                <p>©2017 All Rights Reserved.</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/vendors/noty/lib/noty.js" ></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#login_button').click(function() {
+            $.ajax({
+                url: '/login',
+                method: 'POST',
+                dataType: 'JSON',
+                data: $('#login_form').serialize(),
+                error: function(res) {
+                    new Noty({
+                        type: 'error',
+                        text: res.responseJSON.message,
+                        layout: 'topCenter'
+                    }).show();
+                },
+                success: function(data) {
+                    location.href = '/dashboard';
+                }
+            });
+        });
+    });
+    </script>
+</body>
+
+</html>

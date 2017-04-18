@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const config = require('./config');
+const routes = require('./routes');
 const debug = require('debug')('basic-web-ui:app');
 
 const app = express();
@@ -34,9 +35,7 @@ app.use(session({
   cookie: { secure: true }
 }));
 
-app.get('/', (req, res) => {
-  res.send('Hello basic web ui.')
-});
+routes(app);
 
 app.use((req, res, next) => {
   var err = new Error('Not Found');
