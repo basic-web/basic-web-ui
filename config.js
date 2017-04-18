@@ -1,3 +1,5 @@
+'use strict';
+
 const config = {
     app: {
         name: 'Basic Web UI!'
