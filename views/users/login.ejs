@@ -29,10 +29,10 @@
                     <form id="login_form">
                         <h1>登录</h1>
                         <div>
-                            <input type="text" class="form-control" placeholder="Phone" required="" />
+                            <input name="phone" type="text" class="form-control" placeholder="Phone" required="" />
                         </div>
                         <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
+                            <input name="password" type="password" class="form-control" placeholder="Password" required="" />
                         </div>
                         <div>
                             <button class="btn btn-default submit" id="login_button">登录</button>
@@ -49,7 +49,9 @@
                             <br />
 
                             <div>
-                                <h1><i class="fa fa-paw"></i> <%= title || 'Basic web'%></h1>
+                                <h1><i class="fa fa-paw"></i>
+                                    <%= title || 'Basic web'%>
+                                </h1>
                                 <p>©2017 All Rights Reserved.</p>
                             </div>
                         </div>
@@ -85,7 +87,9 @@
                             <br />
 
                             <div>
-                                <h1><i class="fa fa-paw"></i> <%= title || 'Basic web'%></h1>
+                                <h1><i class="fa fa-paw"></i>
+                                    <%= title || 'Basic web'%>
+                                </h1>
                                 <p>©2017 All Rights Reserved.</p>
                             </div>
                         </div>
@@ -95,28 +99,39 @@
         </div>
     </div>
     <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/vendors/noty/lib/noty.js" ></script>
+    <script type="text/javascript" src="/vendors/noty/lib/noty.js"></script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('#login_button').click(function() {
-            $.ajax({
-                url: '/login',
-                method: 'POST',
-                dataType: 'JSON',
-                data: $('#login_form').serialize(),
-                error: function(res) {
-                    new Noty({
-                        type: 'error',
-                        text: res.responseJSON.message,
-                        layout: 'topCenter'
-                    }).show();
-                },
-                success: function(data) {
-                    location.href = '/dashboard';
-                }
+        $(document).ready(function () {
+            $('#login_button').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/login',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: $('#login_form').serialize(),
+                    error: function (res) {
+                        var message = '';
+                        if (res.responseJSON.message) {
+                            message += res.responseJSON.message + '<br>';
+                        }
+                        if (res.responseJSON.error) {
+                            for (var i = 0; i < res.responseJSON.error.length; i++) {
+                                message += res.responseJSON.error[i].msg + '<br>';
+                            }
+                        }
+                        new Noty({
+                            type: 'error',
+                            text: message,
+                            layout: 'topCenter',
+                            timeout: 3000
+                        }).show();
+                    },
+                    success: function (data) {
+                        location.href = '/dashboard';
+                    }
+                });
             });
         });
-    });
     </script>
 </body>
 
