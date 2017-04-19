@@ -64,13 +64,13 @@
                     <form id="registration_form">
                         <h1>注册</h1>
                         <div>
-                            <input type="text" class="form-control" placeholder="Nickname" required="" />
+                            <input name="nickname" type="text" class="form-control" placeholder="Nickname" required="" />
                         </div>
                         <div>
-                            <input type="text" class="form-control" placeholder="Phone" required="" />
+                            <input name="phone" type="text" class="form-control" placeholder="Phone" required="" />
                         </div>
                         <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
+                            <input name="password" type="password" class="form-control" placeholder="Password" required="" />
                         </div>
                         <div>
                             <button class="btn btn-default submit" id="registration_button">注册</button>
@@ -80,7 +80,7 @@
 
                         <div class="separator">
                             <p class="change_link">已经用户账户 ?
-                                <a href="#signin" class="to_register"> 直接登录 </a>
+                                <a id="to_login" href="#signin" class="to_register"> 直接登录 </a>
                             </p>
 
                             <div class="clearfix"></div>
@@ -102,6 +102,24 @@
     <script type="text/javascript" src="/vendors/noty/lib/noty.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            var error = function (res) {
+                console.log(res);
+                var message = '';
+                if (res.responseJSON.message) {
+                    message += res.responseJSON.message + '<br>';
+                }
+                if (res.responseJSON.error) {
+                    for (var i = 0; i < res.responseJSON.error.length; i++) {
+                        message += res.responseJSON.error[i].msg + '<br>';
+                    }
+                }
+                new Noty({
+                    type: 'error',
+                    text: message,
+                    layout: 'topCenter',
+                    timeout: 3000
+                }).show();
+            };
             $('#login_button').click(function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -109,24 +127,21 @@
                     method: 'POST',
                     dataType: 'JSON',
                     data: $('#login_form').serialize(),
-                    error: function (res) {
-                        var message = '';
-                        if (res.responseJSON.message) {
-                            message += res.responseJSON.message + '<br>';
-                        }
-                        if (res.responseJSON.error) {
-                            for (var i = 0; i < res.responseJSON.error.length; i++) {
-                                message += res.responseJSON.error[i].msg + '<br>';
-                            }
-                        }
-                        new Noty({
-                            type: 'error',
-                            text: message,
-                            layout: 'topCenter',
-                            timeout: 3000
-                        }).show();
-                    },
+                    error: error,
                     success: function (data) {
+                        location.href = '/dashboard';
+                    }
+                });
+            });
+            $('#registration_button').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/register',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: $('#registration_form').serialize(),
+                    error: error,
+                    success: function () {
                         location.href = '/dashboard';
                     }
                 });
