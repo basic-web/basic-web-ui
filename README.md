@@ -9,7 +9,9 @@ Basic Web UI
 $ docker pull redis
 $ docker pull node
 $ docker run --name redis -d redis
-$ docker run -it --rm --name basic-web-ui -p 3000:3000 --link redis:redis -v "$PWD":/usr/src/app -w /usr/src/app node /bin/bash
+$ docker run -it --rm --name basic-web-ui -p 3000:3000 \
+   --link redis:redis --link basic-service:basic-service \
+   -v "$PWD":/usr/src/app -w /usr/src/app node /bin/bash
 $ root@b6029a99608a:/usr/src/app# DEBUG=basic-web-ui:* node app.js
 ```
 
