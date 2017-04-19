@@ -1,6 +1,20 @@
 Basic Web UI
 ============
 
+## Install develop environment
+
+```
+$ sudo apt-get install ruby
+$ sudo gem install sass
+$ sudo cnpm install bower -g
+$ sudo cnpm install gulp -g
+$ git clone https://github.com/basic-web/basic-web-ui.git
+$ cd basic-web-ui
+$ cnpm install
+$ bower install
+$ gulp
+```
+
 ## Developing in docker
 
 ### Install container and run app

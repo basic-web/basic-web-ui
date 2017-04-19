@@ -7,10 +7,16 @@ exports.login = (data) => {
     return request({
         method: 'POST',
         uri: config.service.base + '/users/login',
-        form: {
-            phone: data.phone,
-            password: data.password
-        },
+        form: data,
+        json: true
+    });
+};
+
+exports.register = (data) => {
+    return request({
+        method: 'POST',
+        uri: config.service.base + '/users/register',
+        form: data,
         json: true
     });
 };

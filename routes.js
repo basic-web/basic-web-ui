@@ -1,5 +1,6 @@
 'use strict';
 
+const dashboard = require('./modules/dashboard');
 const users = require('./modules/users');
 
 module.exports = app => {
@@ -9,5 +10,6 @@ module.exports = app => {
         }
         next();
     });
+    dashboard(app);
     users(app);
 };

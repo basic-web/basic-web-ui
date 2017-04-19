@@ -33,8 +33,7 @@ app.use(session({
     }),
     resave: false,
     saveUninitialized: true,
-    secret: config.session.secret,
-    cookie: { secure: true }
+    secret: config.session.secret
 }));
 
 app.use((req, res, next) => {

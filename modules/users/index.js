@@ -8,4 +8,5 @@ module.exports = app => {
         res.render('users/login', {title: config.app.name});
     });
     app.post('/login', controller.login);
+    app.post('/register', controller.register);
 };
