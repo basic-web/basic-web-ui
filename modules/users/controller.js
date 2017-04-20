@@ -12,6 +12,7 @@ exports.login = (req, res) => {
         }
         service.login(req.body).then(user => {
             req.session.userID = user.id;
+            res.cookie('current-page', '/dashboard', {encode: function(data) {return data;}});
             res.json({});
         }).catch(err => {
             if (err.name === 'StatusCodeError') {
@@ -34,6 +35,7 @@ exports.register = (req, res) => {
         }
         service.register(req.body).then(user => {
             req.session.userID = user.id;
+            res.cookie('current-page', '/dashboard', {encode: function(data) {return data;}});
             res.json({});
         }).catch(err => {
             if (err.name === 'StatusCodeError') {
@@ -43,4 +45,11 @@ exports.register = (req, res) => {
             }
         });
     });
+};
+
+exports.logout = (req, res) => {
+    if (req.session.userID) {
+        delete req.session.userID;
+    }
+    res.redirect('/');
 };

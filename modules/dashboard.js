@@ -5,7 +5,11 @@ module.exports = app => {
         res.redirect('/dashboard');
     });
 
+    app.get('/nav', (req, res) => {
+        res.render('common/menu');
+    });
+
     app.get('/dashboard', (req, res) => {
-        res.send('This is dashboard.');
+        res.render('dashboard');
     });
 };
