@@ -44,3 +44,10 @@ exports.register = (req, res) => {
         });
     });
 };
+
+exports.logout = (req, res) => {
+    if (req.session.userID) {
+        delete req.session.userID;
+    }
+    res.redirect('/');
+};
