@@ -132,6 +132,7 @@ $(document).ready(function () {
             }).show();
         },
         success: function (data) {
+            $('.appname').text(data.appname);
             $('.nickname').text(data.user.nickname);
             if (data.user.head) {
                 $('.userhead').attr('src', data.user.head);
