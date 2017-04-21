@@ -12,7 +12,7 @@ exports.login = (req, res) => {
         }
         service.login(req.body).then(user => {
             req.session.userID = user.id;
-            res.cookie('current-page', '/dashboard', {encode: function(data) {return data;}});
+            res.cookie('current-page', '/dashboard', { encode: function (data) { return data; } });
             res.json({});
         }).catch(err => {
             if (err.name === 'StatusCodeError') {
@@ -35,7 +35,7 @@ exports.register = (req, res) => {
         }
         service.register(req.body).then(user => {
             req.session.userID = user.id;
-            res.cookie('current-page', '/dashboard', {encode: function(data) {return data;}});
+            res.cookie('current-page', '/dashboard', { encode: function (data) { return data; } });
             res.json({});
         }).catch(err => {
             if (err.name === 'StatusCodeError') {
@@ -52,4 +52,19 @@ exports.logout = (req, res) => {
         delete req.session.userID;
     }
     res.redirect('/');
+};
+
+exports.settings = (req, res) => {
+    service.get(req.session.userID).then(user => {
+        res.render('users/settings', {
+            phone: user.phone,
+            nickname: user.nickname
+        });
+    }).catch(err => {
+        if (err.name === 'StatusCodeError') {
+            res.status(err.statusCode).render('common/error', { status: err.statusCode, message: err.error.message });
+        } else {
+            res.status(500).render('common/error', { status: err.statusCode, message: err.message });
+        }
+    });
 };

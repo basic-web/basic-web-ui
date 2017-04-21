@@ -58,7 +58,7 @@ app.use((err, req, res, next) => {
     if (req.isAjaxRequest) {
         res.json({ message: err.message || 'Server Internal Error' });
     } else {
-        res.send(err.message || 'Server Internal Error');
+        res.render('common/error', { status: err.status || 500, message: err.message });
     }
 });
 
