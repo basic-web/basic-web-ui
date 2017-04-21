@@ -53,7 +53,7 @@ $(document).ready(function () {
             });
         }
 
-        if($(this).attr('href')) {
+        if ($(this).attr('href')) {
             document.cookie = "current-page=" + $(this).attr('href');
         }
     });
@@ -119,5 +119,23 @@ if (typeof NProgress != 'undefined') {
 }
 
 $(document).ready(function () {
-    //
+    $.ajax({
+        url: '/base',
+        method: 'GET',
+        dataType: 'JSON',
+        error: function (req) {
+            new Noty({
+                type: 'error',
+                text: req.responseJSON.message,
+                layout: 'topCenter',
+                timeout: 3000
+            }).show();
+        },
+        success: function (data) {
+            $('.nickname').text(data.user.nickname);
+            if (data.user.head) {
+                $('.userhead').attr('src', data.user.head);
+            }
+        }
+    });
 });

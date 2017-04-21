@@ -20,3 +20,11 @@ exports.register = (data) => {
         json: true
     });
 };
+
+exports.get = (id) => {
+    return request({
+        method: 'GET',
+        uri: config.service.base + '/user/' + id,
+        json: true
+    });
+}
