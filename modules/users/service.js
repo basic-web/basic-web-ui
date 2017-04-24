@@ -27,4 +27,4 @@ exports.get = (id) => {
         uri: config.service.base + '/user/' + id,
         json: true
     });
-}
+};
