@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../common/head'); %>
+        <link href="/vendors/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+        <link href="/vendors/noty/lib/noty.css" rel="stylesheet">
+        <title>修改头像</title>
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <%- include('../common/menu'); %>
+                <!-- page content -->
+                <div class="right_col" role="main">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>上传头像</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <div class="col-xs-12">
+                                            <div class="profile_img">
+                                                <div id="crop-avatar">
+                                                    <img class="img-responsive avatar-view" src="<%= head ? head : 'images/user.png' %>" alt="" title="更改头像">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p>支持jpg，png，gif格式图片，请尽可能选用260*260以上的图片。</p>
+                                                <span class="btn btn-success fileinput-button">
+                                                    <i class="fa fa-fw fa-file-image-o"></i>
+                                                    <span>本地中选一张</span>
+                                                <input id="fileupload" type="file" name="file">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /page content -->
+
+                <%- include('../common/footer') %>
+        </div>
+    </div>
+
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="/vendors/nprogress/nprogress.js"></script>
+    <script src="/vendors/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="/vendors/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="/vendors/blueimp-file-upload/js/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="/vendors/noty/lib/noty.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script>
+        $(function () {
+            $('#fileupload').fileupload({
+                url: '/avatar',
+                dataType: 'json',
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                done: function (e, data) {
+                    $.each(data.result.files, function (index, file) {
+                        $('<p/>').text(file.name).appendTo(document.body);
+                    });
+                },
+                fail: function (e, data) {
+                    new Noty({
+                        type: 'error',
+                        text: '文件上传失败',
+                        layout: 'topCenter',
+                        timeout: 3000
+                    }).show();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

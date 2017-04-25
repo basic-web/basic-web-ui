@@ -94,3 +94,17 @@ exports.do_settings = (req, res) => {
         });
     });
 };
+
+exports.avatar = (req, res) => {
+    service.get(req.session.userID).then(user => {
+        res.render('users/avatar', {
+            head: user.head
+        });
+    }).catch(err => {
+        if (err.name === 'StatusCodeError') {
+            res.status(err.statusCode).render('common/error', { status: err.statusCode, message: err.error.message });
+        } else {
+            res.status(500).render('common/error', { status: 500, message: err.message });
+        }
+    });
+};
