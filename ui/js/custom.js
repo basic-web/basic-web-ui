@@ -53,7 +53,7 @@ $(document).ready(function () {
             });
         }
 
-        if($(this).attr('href')) {
+        if ($(this).attr('href')) {
             document.cookie = "current-page=" + $(this).attr('href');
         }
     });
@@ -119,5 +119,42 @@ if (typeof NProgress != 'undefined') {
 }
 
 $(document).ready(function () {
-    //
+    $.ajax({
+        url: '/base',
+        method: 'GET',
+        dataType: 'JSON',
+        error: function (req) {
+            new Noty({
+                type: 'error',
+                text: req.responseJSON.message,
+                layout: 'topCenter',
+                timeout: 3000
+            }).show();
+        },
+        success: function (data) {
+            $('.appname').text(data.appname);
+            $('.nickname').text(data.user.nickname);
+            if (data.user.head) {
+                $('.userhead').attr('src', data.user.head);
+            }
+        }
+    });
 });
+
+var ERROR_HANDLER = function (res) {
+    var message = '';
+    if (res.responseJSON.message) {
+        message += res.responseJSON.message + '<br>';
+    }
+    if (res.responseJSON.error) {
+        for (var i = 0; i < res.responseJSON.error.length; i++) {
+            message += res.responseJSON.error[i].msg + '<br>';
+        }
+    }
+    new Noty({
+        type: 'error',
+        text: message,
+        layout: 'topCenter',
+        timeout: 3000
+    }).show();
+};

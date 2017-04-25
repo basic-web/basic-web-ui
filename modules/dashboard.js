@@ -1,12 +1,29 @@
 'use strict';
 
+const config = require('../config');
+const userService = require('./users/service');
+
 module.exports = app => {
     app.get('/', (req, res) => {
         res.redirect('/dashboard');
     });
 
-    app.get('/nav', (req, res) => {
-        res.render('common/menu');
+    app.get('/base', (req, res) => {
+        userService.get(req.session.userID).then(user => { 
+            res.json({
+                appname: config.app.name,
+                user: {
+                    nickname: user.nickname,
+                    head: user.head
+                }
+            });
+        }).catch(err => {
+            if (err.name === 'StatusCodeError') {
+                res.status(err.statusCode).json(err.error);
+            } else {
+                res.status(500).json({ message: err.message });
+            }
+        });
     });
 
     app.get('/dashboard', (req, res) => {
