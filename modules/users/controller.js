@@ -16,7 +16,7 @@ exports.login = (req, res) => {
             res.json({});
         }).catch(err => {
             if (err.name === 'StatusCodeError') {
-                res.status(err.statusCode).json(err.error);
+                res.status(err.statusCode).json({ message: err.error.message });
             } else {
                 res.status(500).json({ message: err.message });
             }
@@ -39,7 +39,7 @@ exports.register = (req, res) => {
             res.json({});
         }).catch(err => {
             if (err.name === 'StatusCodeError') {
-                res.status(err.statusCode).json(err.error);
+                res.status(err.statusCode).json({ message: err.error.message });
             } else {
                 res.status(500).json({ message: err.message });
             }
@@ -64,7 +64,33 @@ exports.settings = (req, res) => {
         if (err.name === 'StatusCodeError') {
             res.status(err.statusCode).render('common/error', { status: err.statusCode, message: err.error.message });
         } else {
-            res.status(500).render('common/error', { status: err.statusCode, message: err.message });
+            res.status(500).render('common/error', { status: 500, message: err.message });
         }
+    });
+};
+
+exports.do_settings = (req, res) => {
+    req.checkBody('nickname', '昵称过长').isLength({ min: 1, max: 20 });
+    if (req.body['change_password']) {
+        req.checkBody('origin_password', '原密码不能为空').notEmpty();
+        req.checkBody('password', '密码不能为空').notEmpty();
+        if (req.body.password !== req.body.repassword) {
+            res.status(500).json({ message: '两次输入密码不一致' });
+        }
+    }
+    req.getValidationResult().then(result => {
+        if (!result.isEmpty()) {
+            res.status(400).json({ error: result.array() });
+            return;
+        }
+        service.modify(req.session.userID, req.body).then(user => {
+            res.json({});
+        }).catch(err => {
+            if (err.name === 'StatusCodeError') {
+                res.status(err.statusCode).json({ message: err.error.message });
+            } else {
+                res.status(500).json({ message: err.message });
+            }
+        });
     });
 };

@@ -102,7 +102,7 @@
     <script type="text/javascript" src="/vendors/noty/lib/noty.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var error = function (res) {
+            var ERROR_HANDLER = function (res) {
                 var message = '';
                 if (res.responseJSON.message) {
                     message += res.responseJSON.message + '<br>';
@@ -126,7 +126,7 @@
                     method: 'POST',
                     dataType: 'JSON',
                     data: $('#login_form').serialize(),
-                    error: error,
+                    error: ERROR_HANDLER,
                     success: function (data) {
                         location.href = '/dashboard';
                     }
@@ -139,7 +139,7 @@
                     method: 'POST',
                     dataType: 'JSON',
                     data: $('#registration_form').serialize(),
-                    error: error,
+                    error: ERROR_HANDLER,
                     success: function () {
                         location.href = '/dashboard';
                     }

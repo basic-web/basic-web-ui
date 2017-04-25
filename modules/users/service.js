@@ -28,3 +28,12 @@ exports.get = (id) => {
         json: true
     });
 };
+
+exports.modify = (id, data) => {
+    return request({
+        method: 'PATCH',
+        uri: config.service.base + '/user/' + id,
+        form: data,
+        json: true
+    });
+};

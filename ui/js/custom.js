@@ -140,3 +140,21 @@ $(document).ready(function () {
         }
     });
 });
+
+var ERROR_HANDLER = function (res) {
+    var message = '';
+    if (res.responseJSON.message) {
+        message += res.responseJSON.message + '<br>';
+    }
+    if (res.responseJSON.error) {
+        for (var i = 0; i < res.responseJSON.error.length; i++) {
+            message += res.responseJSON.error[i].msg + '<br>';
+        }
+    }
+    new Noty({
+        type: 'error',
+        text: message,
+        layout: 'topCenter',
+        timeout: 3000
+    }).show();
+};
