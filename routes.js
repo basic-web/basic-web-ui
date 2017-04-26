@@ -1,5 +1,6 @@
 'use strict';
 
+const common = require('./modules/common');
 const dashboard = require('./modules/dashboard');
 const users = require('./modules/users');
 
@@ -10,6 +11,8 @@ module.exports = app => {
         }
         next();
     });
+
+    common(app);
     dashboard(app);
     users(app);
 };

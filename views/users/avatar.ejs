@@ -62,13 +62,11 @@
     <script>
         $(function () {
             $('#fileupload').fileupload({
-                url: '/avatar',
+                url: '/common/upload',
                 dataType: 'json',
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 done: function (e, data) {
-                    $.each(data.result.files, function (index, file) {
-                        $('<p/>').text(file.name).appendTo(document.body);
-                    });
+                    console.log(data.result);
                 },
                 fail: function (e, data) {
                     new Noty({

@@ -4,6 +4,9 @@ const config = {
     app: {
         name: 'Basic Web UI!'
     },
+    upload: {
+        dir: '/tmp/'
+    },
     redis: {
         host: 'redis',
         port: '6379'
