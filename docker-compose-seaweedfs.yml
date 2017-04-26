@@ -1,0 +1,19 @@
+version: '3'
+services:
+  master:
+    image: carmark/seaweedfs
+    container_name: seaweedfs_master
+    command: master
+  data1:
+    image: carmark/seaweedfs
+    container_name: seaweedfs_data1
+    links:
+      - master:seaweedfs_master
+    command: volume -dir="/data" -max=5 -mserver="seaweedfs_master:9333" -ip=seaweedfs_data1 -port=50070
+    depends_on:
+      - master
+
+networks:
+  default:
+    external:
+      name: dev

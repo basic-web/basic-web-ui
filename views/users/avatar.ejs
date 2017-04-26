@@ -24,21 +24,27 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="x_content">
-                                        <div class="col-xs-12">
-                                            <div>
-                                                <div id="crop-avatar">
-                                                    <img id="avatar-view" class="img-responsive avatar-view" src="<%= head ? head : 'images/user.png' %>" alt="" title="更改头像">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-9 col-xs-12">
+                                                <div>
+                                                    <div id="crop-avatar">
+                                                        <img id="avatar-view" class="img-responsive avatar-view" src="<%= head ? head : 'images/user.png' %>" alt="" title="更改头像">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <p>支持jpg，png，gif格式图片，请尽可能选用260*260以上的图片。</p>
-                                                <span class="btn btn-success fileinput-button">
+                                            <div class="col-md-6 col-sm-3 col-xs-12 bottom">
+                                                <div id="avatar-preview" style="float: left;margin-right: .5rem;margin-bottom: .5rem;overflow: hidden; width:260px; height:260px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p>支持jpg，png，gif格式图片，请尽可能选用260*260以上的图片。</p>
+                                            <span class="btn btn-success fileinput-button">
                                                     <i class="fa fa-fw fa-file-image-o"></i>
                                                     <span>本地中选一张</span>
-                                                <input id="fileupload" type="file" name="file">
-                                                </span>
-                                                <button id="btn-save" class="btn btn-info hide"><i class="fa fa-save"></i> 确定</button>
-                                            </div>
+                                            <input id="fileupload" type="file" name="file">
+                                            </span>
+                                            <button id="btn-save" class="btn btn-info hide"><i class="fa fa-save"></i> 确定</button>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +84,12 @@
                     $('#btn-save').removeClass('hide');
                     cropper = new Cropper(document.getElementById('avatar-view'), {
                         aspectRatio: 1,
-                        autoCropArea: 0.5
+                        viewMode: 1,
+                        dragMode: 'move',
+                        autoCropArea: 0.5,
+                        preview: '#avatar-preview',
+                        restore: false,
+                        highlight: false
                     });
                 },
                 fail: function (e, data) {

@@ -23,12 +23,11 @@ $ gulp
 $ docker pull redis
 $ docker pull node
 $ docker pull carmark/seaweedfs
-$ docker run --name redis -d redis
-$ docker run --name seaweedfs_master -d carmark/seaweedfs master
-$ docker run --name seaweedfs_data1 --link seaweedfs_master:seaweedfs_master \
- -d carmark/seaweedfs volume -dir="/data" -max=5 -mserver="seaweedfs_master:9333" -ip=seaweedfs_data1 -port=50070
+$ docker network create dev
+$ docker run --name redis --net dev -d redis
+$ docker-compose -f ./docker-compose-seaweedfs.yml up -d
 $ docker run -it --rm --name basic-web-ui -p 3000:3000 \
-   --link redis:redis \
+   --net dev --link redis:redis \
    --link seaweedfs_master:seaweedfs_master --link seaweedfs_data1:seaweedfs_data1 \
    --link basic-service:basic-service \
    -v "$PWD":/usr/src/app -w /usr/src/app node /bin/bash
