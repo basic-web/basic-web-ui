@@ -1,6 +1,11 @@
 'use strict';
 
+const fs = require('fs');
+const multiparty = require('multiparty');
+const config = require('../../config');
 const service = require('./service');
+const SeaweeDFS = new require('../../utils/seaweedfs');
+const weed = new SeaweeDFS({ master: config.seaweedfs.master });
 
 exports.login = (req, res) => {
     req.checkBody('phone', '电话号码错误').isMobilePhone('zh-CN');
@@ -91,6 +96,42 @@ exports.do_settings = (req, res) => {
             } else {
                 res.status(500).json({ message: err.message });
             }
+        });
+    });
+};
+
+exports.avatar = (req, res) => {
+    service.get(req.session.userID).then(user => {
+        res.render('users/avatar', {
+            head: user.head
+        });
+    }).catch(err => {
+        if (err.name === 'StatusCodeError') {
+            res.status(err.statusCode).render('common/error', { status: err.statusCode, message: err.error.message });
+        } else {
+            res.status(500).render('common/error', { status: 500, message: err.message });
+        }
+    });
+};
+
+exports.do_avatar = (req, res) => {
+    const form = new multiparty.Form({
+        uploadDir: config.upload.dir
+    });
+
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            res.json({ message: err.message || 'Server Internal Error' });
+            return;
+        }
+        weed.write(files.head[0].path, (err, fid) => {
+            if (err) {
+                console.log(err);
+                res.json({ message: err.message || 'Server Internal Error' });
+                return;
+            }
+            console.log(fid);
+            res.json({});
         });
     });
 };

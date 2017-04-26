@@ -22,9 +22,14 @@ $ gulp
 ```
 $ docker pull redis
 $ docker pull node
-$ docker run --name redis -d redis
+$ docker pull carmark/seaweedfs
+$ docker network create dev
+$ docker run --name redis --net dev -d redis
+$ docker-compose -f ./docker-compose-seaweedfs.yml up -d
 $ docker run -it --rm --name basic-web-ui -p 3000:3000 \
-   --link redis:redis --link basic-service:basic-service \
+   --net dev --link redis:redis \
+   --link seaweedfs_master:seaweedfs_master --link seaweedfs_data1:seaweedfs_data1 \
+   --link basic-service:basic-service \
    -v "$PWD":/usr/src/app -w /usr/src/app node /bin/bash
 $ root@b6029a99608a:/usr/src/app# DEBUG=basic-web-ui:* node app.js
 ```

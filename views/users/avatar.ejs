@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../common/head'); %>
+        <link href="/vendors/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+        <link href="/vendors/cropperjs/dist/cropper.min.css" rel="stylesheet">
+        <link href="/vendors/noty/lib/noty.css" rel="stylesheet">
+        <title>修改头像</title>
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <%- include('../common/menu'); %>
+                <!-- page content -->
+                <div class="right_col" role="main">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>上传头像</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-9 col-xs-12">
+                                                <div>
+                                                    <div id="crop-avatar">
+                                                        <img id="avatar-view" class="img-responsive avatar-view" src="<%= head ? head : 'images/user.png' %>" alt="" title="更改头像">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-3 col-xs-12 bottom">
+                                                <div id="avatar-preview" style="float: left;margin-right: .5rem;margin-bottom: .5rem;overflow: hidden; width:260px; height:260px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p>支持jpg，png，gif格式图片，请尽可能选用260*260以上的图片。</p>
+                                            <span class="btn btn-success fileinput-button">
+                                                    <i class="fa fa-fw fa-file-image-o"></i>
+                                                    <span>本地中选一张</span>
+                                            <input id="fileupload" type="file" name="file">
+                                            </span>
+                                            <button id="btn-save" class="btn btn-info hide"><i class="fa fa-save"></i> 确定</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /page content -->
+
+                <%- include('../common/footer') %>
+        </div>
+    </div>
+
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="/vendors/nprogress/nprogress.js"></script>
+    <script src="/vendors/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="/vendors/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="/vendors/blueimp-file-upload/js/jquery.fileupload.js"></script>
+    <script src="/vendors/noty/lib/noty.js"></script>
+    <script src="/vendors/cropperjs/dist/cropper.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script>
+        $(function () {
+            var cropper = null;
+            $('#fileupload').fileupload({
+                url: '/common/upload',
+                dataType: 'json',
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                done: function (e, data) {
+                    if (cropper) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    $('#avatar-view').attr('src', '/common/files/' + data.result.path);
+                    $('#btn-save').removeClass('hide');
+                    cropper = new Cropper(document.getElementById('avatar-view'), {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        dragMode: 'move',
+                        autoCropArea: 0.5,
+                        preview: '#avatar-preview',
+                        restore: false,
+                        highlight: false
+                    });
+                },
+                fail: function (e, data) {
+                    new Noty({
+                        type: 'error',
+                        text: '文件上传失败',
+                        layout: 'topCenter',
+                        timeout: 3000
+                    }).show();
+                }
+            });
+            $('#btn-save').click(function () {
+                if (cropper) {
+                    cropper.getCroppedCanvas().toBlob(function (blob) {
+                        var formData = new FormData();
+                        formData.append('head', blob);
+                        $.ajax('/avatar', {
+                            method: "POST",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function () {
+                                location.href = '/avatar';
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
