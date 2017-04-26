@@ -23,7 +23,7 @@ exports.upload = (req, res) => {
     });
 };
 
-exports.file = (req, res) => {
+exports.file = (req, res, next) => {
     fs.exists(config.upload.dir + req.params.path, exists => {
         if (exists) {
             res.sendFile(req.params.path, { root: config.upload.dir }, err => {

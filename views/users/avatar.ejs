@@ -4,6 +4,7 @@
 <head>
     <%- include('../common/head'); %>
         <link href="/vendors/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+        <link href="/vendors/cropperjs/dist/cropper.min.css" rel="stylesheet">
         <link href="/vendors/noty/lib/noty.css" rel="stylesheet">
         <title>修改头像</title>
 </head>
@@ -24,9 +25,9 @@
                                     </div>
                                     <div class="x_content">
                                         <div class="col-xs-12">
-                                            <div class="profile_img">
+                                            <div>
                                                 <div id="crop-avatar">
-                                                    <img class="img-responsive avatar-view" src="<%= head ? head : 'images/user.png' %>" alt="" title="更改头像">
+                                                    <img id="avatar-view" class="img-responsive avatar-view" src="<%= head ? head : 'images/user.png' %>" alt="" title="更改头像">
                                                 </div>
                                             </div>
                                             <div>
@@ -36,6 +37,7 @@
                                                     <span>本地中选一张</span>
                                                 <input id="fileupload" type="file" name="file">
                                                 </span>
+                                                <button id="btn-save" class="btn btn-info hide"><i class="fa fa-save"></i> 确定</button>
                                             </div>
                                         </div>
                                     </div>
@@ -57,16 +59,27 @@
     <script src="/vendors/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
     <script src="/vendors/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
     <script src="/vendors/blueimp-file-upload/js/jquery.fileupload.js"></script>
-    <script type="text/javascript" src="/vendors/noty/lib/noty.js"></script>
+    <script src="/vendors/noty/lib/noty.js"></script>
+    <script src="/vendors/cropperjs/dist/cropper.min.js"></script>
     <script src="/js/custom.min.js"></script>
     <script>
         $(function () {
+            var cropper = null;
             $('#fileupload').fileupload({
                 url: '/common/upload',
                 dataType: 'json',
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 done: function (e, data) {
-                    console.log(data.result);
+                    if (cropper) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    $('#avatar-view').attr('src', '/common/files/' + data.result.path);
+                    $('#btn-save').removeClass('hide');
+                    cropper = new Cropper(document.getElementById('avatar-view'), {
+                        aspectRatio: 1,
+                        autoCropArea: 0.5
+                    });
                 },
                 fail: function (e, data) {
                     new Noty({
@@ -75,6 +88,23 @@
                         layout: 'topCenter',
                         timeout: 3000
                     }).show();
+                }
+            });
+            $('#btn-save').click(function () {
+                if (cropper) {
+                    cropper.getCroppedCanvas().toBlob(function (blob) {
+                        var formData = new FormData();
+                        formData.append('head', blob);
+                        $.ajax('/avatar', {
+                            method: "POST",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function () {
+                                location.href = '/avatar';
+                            }
+                        });
+                    });
                 }
             });
         });

@@ -7,6 +7,9 @@ const config = {
     upload: {
         dir: '/tmp/'
     },
+    seaweedfs: {
+        master: 'http://seaweedfs_master:9333'
+    },
     redis: {
         host: 'redis',
         port: '6379'

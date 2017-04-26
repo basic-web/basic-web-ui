@@ -13,4 +13,5 @@ module.exports = app => {
     app.get('/settings', controller.settings);
     app.post('/settings', controller.do_settings);
     app.get('/avatar', controller.avatar);
+    app.post('/avatar', controller.do_avatar);
 };
