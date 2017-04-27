@@ -48,6 +48,6 @@ SeaweeDFS.prototype.lookup = function (fid, callback) {
     }).catch(err => {
         callback(err);
     });
-}
+};
 
 module.exports = SeaweeDFS;
