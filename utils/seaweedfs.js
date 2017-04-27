@@ -37,4 +37,17 @@ SeaweeDFS.prototype.write = function (path, callback) {
     });
 };
 
+SeaweeDFS.prototype.lookup = function (fid, callback) {
+    const volume = fid.split(/,|\//)[0];
+    request({
+        method: 'GET',
+        uri: this.master + '/dir/lookup?volumeId=' + volume,
+        json: true
+    }).then(result => {
+        callback(null, { uri: 'http://' + result.locations[0].url + "/" + fid });
+    }).catch(err => {
+        callback(err);
+    });
+}
+
 module.exports = SeaweeDFS;

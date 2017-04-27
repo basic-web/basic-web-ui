@@ -2,7 +2,10 @@
 
 const fs = require('fs');
 const multiparty = require('multiparty');
+const request = require('request');
 const config = require('../../config');
+const SeaweeDFS = new require('../../utils/seaweedfs');
+const weed = new SeaweeDFS({ master: config.seaweedfs.master });
 
 exports.upload = (req, res) => {
     const form = new multiparty.Form({
@@ -23,7 +26,7 @@ exports.upload = (req, res) => {
     });
 };
 
-exports.file = (req, res, next) => {
+exports.download = (req, res, next) => {
     fs.exists(config.upload.dir + req.params.path, exists => {
         if (exists) {
             res.sendFile(req.params.path, { root: config.upload.dir }, err => {
@@ -34,3 +37,13 @@ exports.file = (req, res, next) => {
         }
     });
 };
+
+exports.file = (req, res, next) => {
+    weed.lookup(req.params.fid, (err, result) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        request.get(result.uri).pipe(res);
+    });
+}

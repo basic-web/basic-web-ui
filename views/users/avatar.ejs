@@ -80,7 +80,7 @@
                         cropper.destroy();
                         cropper = null;
                     }
-                    $('#avatar-view').attr('src', '/common/files/' + data.result.path);
+                    $('#avatar-view').attr('src', '/common/download/' + data.result.path);
                     $('#btn-save').removeClass('hide');
                     cropper = new Cropper(document.getElementById('avatar-view'), {
                         aspectRatio: 1,

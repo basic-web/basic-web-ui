@@ -114,24 +114,30 @@ exports.avatar = (req, res) => {
     });
 };
 
-exports.do_avatar = (req, res) => {
+exports.do_avatar = (req, res, next) => {
     const form = new multiparty.Form({
         uploadDir: config.upload.dir
     });
 
     form.parse(req, (err, fields, files) => {
         if (err) {
-            res.json({ message: err.message || 'Server Internal Error' });
+            next(err);
             return;
         }
-        weed.write(files.head[0].path, (err, fid) => {
+        weed.write(files.head[0].path, (err, result) => {
             if (err) {
-                console.log(err);
-                res.json({ message: err.message || 'Server Internal Error' });
+                next(err);
                 return;
             }
-            console.log(fid);
-            res.json({});
+            service.modify(req.session.userID, { head: '/files/' + result.fid }).then(user => {
+                res.json({});
+            }).catch(err => {
+                if (err.name === 'StatusCodeError') {
+                    res.status(err.statusCode).json({ message: err.error.message });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
+            });
         });
     });
 };
