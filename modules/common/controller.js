@@ -44,6 +44,8 @@ exports.file = (req, res, next) => {
             next(err);
             return;
         }
+        res.setHeader("Cache-Control", "public, max-age=2592000");
+        res.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
         request.get(result.uri).pipe(res);
     });
-}
+};
