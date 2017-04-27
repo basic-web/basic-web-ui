@@ -129,7 +129,7 @@ exports.do_avatar = (req, res, next) => {
                 next(err);
                 return;
             }
-            service.modify(req.session.userID, { head: '/files/' + result.fid }).then(user => {
+            service.modify(req.session.userID, { head: '/file/' + result.fid }).then(user => {
                 res.json({});
             }).catch(err => {
                 if (err.name === 'StatusCodeError') {
