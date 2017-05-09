@@ -58,68 +58,63 @@
         </div>
     </div>
 
-    <script src="/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/vendors/fastclick/lib/fastclick.js"></script>
-    <script src="/vendors/nprogress/nprogress.js"></script>
-    <script src="/vendors/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
-    <script src="/vendors/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
-    <script src="/vendors/blueimp-file-upload/js/jquery.fileupload.js"></script>
-    <script src="/vendors/noty/lib/noty.js"></script>
-    <script src="/vendors/cropperjs/dist/cropper.min.js"></script>
-    <script src="/js/custom.min.js"></script>
-    <script>
-        $(function () {
-            var cropper = null;
-            $('#fileupload').fileupload({
-                url: '/common/upload',
-                dataType: 'json',
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-                done: function (e, data) {
-                    if (cropper) {
-                        cropper.destroy();
-                        cropper = null;
-                    }
-                    $('#avatar-view').attr('src', '/common/download/' + data.result.path);
-                    $('#btn-save').removeClass('hide');
-                    cropper = new Cropper(document.getElementById('avatar-view'), {
-                        aspectRatio: 1,
-                        viewMode: 1,
-                        dragMode: 'move',
-                        autoCropArea: 0.5,
-                        preview: '#avatar-preview',
-                        restore: false,
-                        highlight: false
-                    });
-                },
-                fail: function (e, data) {
-                    new Noty({
-                        type: 'error',
-                        text: '文件上传失败',
-                        layout: 'topCenter',
-                        timeout: 3000
-                    }).show();
-                }
-            });
-            $('#btn-save').click(function () {
-                if (cropper) {
-                    cropper.getCroppedCanvas().toBlob(function (blob) {
-                        var formData = new FormData();
-                        formData.append('head', blob);
-                        $.ajax('/avatar', {
-                            method: "POST",
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            success: function () {
-                                location.href = '/avatar';
-                            }
+    <%- include('../common/scripts') %>
+        <script src="/vendors/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+        <script src="/vendors/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+        <script src="/vendors/blueimp-file-upload/js/jquery.fileupload.js"></script>
+        <script src="/vendors/cropperjs/dist/cropper.min.js"></script>
+        <script>
+            $(function () {
+                var cropper = null;
+                $('#fileupload').fileupload({
+                    url: '/common/upload',
+                    dataType: 'json',
+                    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                    done: function (e, data) {
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+                        $('#avatar-view').attr('src', '/common/download/' + data.result.path);
+                        $('#btn-save').removeClass('hide');
+                        cropper = new Cropper(document.getElementById('avatar-view'), {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            dragMode: 'move',
+                            autoCropArea: 0.5,
+                            preview: '#avatar-preview',
+                            restore: false,
+                            highlight: false
                         });
-                    });
-                }
+                    },
+                    fail: function (e, data) {
+                        new Noty({
+                            type: 'error',
+                            text: '文件上传失败',
+                            layout: 'topCenter',
+                            timeout: 3000
+                        }).show();
+                    }
+                });
+                $('#btn-save').click(function () {
+                    if (cropper) {
+                        cropper.getCroppedCanvas().toBlob(function (blob) {
+                            var formData = new FormData();
+                            formData.append('head', blob);
+                            $.ajax('/avatar', {
+                                method: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function () {
+                                    location.href = '/avatar';
+                                }
+                            });
+                        });
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>
