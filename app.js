@@ -8,11 +8,17 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const expressValidator = require('express-validator');
+const sessionPatch = require('./utils/session-patch');
 const config = require('./config');
 const routes = require('./routes');
+const sockets = require('./sockets');
 const debug = require('debug')('basic-web-ui:app');
 
 const app = express();
+
+// initial socket.io
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +31,8 @@ app.use(cookieParser());
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'static')));
 
-app.use(session({
+const s = session({
+    name: config.session.name,
     store: new RedisStore({
         host: config.redis.host,
         port: config.redis.port,
@@ -34,7 +41,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     secret: config.session.secret
-}));
+});
+app.use(s);
 
 app.use((req, res, next) => {
     req.isAjaxRequest = req.get("X-Requested-With") && "xmlhttprequest" === req.get("X-Requested-With").toLowerCase();
@@ -42,6 +50,10 @@ app.use((req, res, next) => {
 });
 
 routes(app);
+io.on('connection', socket => {
+    console.log(sessionPatch.getSession(socket.handshake.headers.cookie));
+    sockets(socket);
+});
 
 app.use((req, res, next) => {
     var err = new Error('Not Found');
@@ -62,6 +74,6 @@ app.use((err, req, res, next) => {
     }
 });
 
-app.listen(3000, function () {
+server.listen(3000, function () {
     debug('Listening on ' + 3000);
 });

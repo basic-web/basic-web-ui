@@ -158,3 +158,9 @@ var ERROR_HANDLER = function (res) {
         timeout: 3000
     }).show();
 };
+
+var socket = io('/');
+socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+});
