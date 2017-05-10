@@ -34,6 +34,7 @@
     "animate.css": "^3.5.1",
     "blueimp-file-upload": "jQuery-File-Upload#^9.18.0",
     "cropperjs": "^0.8.1",
-    "socket.io-client": "^2.0.1"
+    "socket.io-client": "^2.0.1",
+    "moment": "^2.18.1"
   }
 }
