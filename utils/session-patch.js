@@ -6,19 +6,15 @@ const config = require('../config');
 
 exports.getSession = cookies => {
     const parsedCookies = cookie.parse(cookies);
+    var val = undefined;
     if (parsedCookies && parsedCookies[config.session.name]) {
         const raw = parsedCookies[config.session.name];
-        if (raw) {
-            if (raw.substr(0, 2) === 's:') {
-                val = unsigncookie(raw.slice(2), secrets);
-                if (val === false) {
-                    val = undefined;
-                }
-            } else {
-                debug('cookie unsigned')
+        if (raw && raw.substr(0, 2) === 's:') {
+            val = signature.unsign(raw.slice(2), config.session.secret);
+            if (val === false) {
+                val = undefined;
             }
         }
-        return signature.unsign(parsedCookies[config.session.name], config.session.secret);
     }
-    return false;
+    return val;
 };
