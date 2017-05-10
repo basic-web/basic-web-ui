@@ -3,8 +3,8 @@
 const fs = require('fs');
 const request = require('request-promise');
 
-function SeaweeDFS(options) {
-    this.master = options.master || 'http://localhost:9333';
+var SeaweeDFS = function (options) {
+    this.master = (options && options.master) || 'http://localhost:9333';
 }
 
 SeaweeDFS.prototype._assign = function (callback) {

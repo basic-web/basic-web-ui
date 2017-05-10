@@ -160,7 +160,22 @@ var ERROR_HANDLER = function (res) {
 };
 
 var socket = io('/');
-socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
+socket.emit('messages');
+socket.on('failure', function (data) {
+    new Noty({
+        type: 'error',
+        text: data,
+        layout: 'topCenter',
+        timeout: 3000
+    }).show();
+});
+socket.on('messages', function (messages) {
+    $('#message-count').html(messages.total);
+    for (var i = 0; i < messages.data.length; i++) {
+        $('#message-all-item').before(
+            '<li><a><span><span>' + messages.data[i].title + '</span><span class="time">'
+            + '3 mins ago' + '</span ></span><span class="message">'
+            + messages.data[i].content +
+            '</span></a></li>');
+    }
 });

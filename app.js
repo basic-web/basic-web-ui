@@ -9,6 +9,7 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const expressValidator = require('express-validator');
 const sessionPatch = require('./utils/session-patch');
+const Container = require('./utils/user-socket-container');
 const config = require('./config');
 const routes = require('./routes');
 const sockets = require('./sockets');
@@ -21,6 +22,7 @@ const store = new RedisStore({
     port: config.redis.port,
     ttl: config.session.ttl
 });
+const container = new Container();
 
 // initial socket.io
 const server = require('http').Server(app);
@@ -38,12 +40,12 @@ io.on('connection', socket => {
                     sess = {};
                 }
                 socket.session = sess;
-                sockets(socket);
+                sockets(socket, container);
             }
         });
     } else {
         socket.session = {};
-        sockets(socket);
+        sockets(socket, container);
     }
 });
 
