@@ -98,56 +98,51 @@
         </div>
     </div>
 
-    <script src=" /vendors/jquery/dist/jquery.min.js "></script>
-    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js "></script>
-    <script src="/vendors/fastclick/lib/fastclick.js "></script>
-    <script src="/vendors/nprogress/nprogress.js "></script>
-    <script src="/vendors/iCheck/icheck.min.js"></script>
-    <script src="/vendors/parsleyjs/dist/parsley.min.js"></script>
-    <script src="/vendors/parsleyjs/dist/i18n/zh_cn.js"></script>
-    <script src="/vendors/noty/lib/noty.js"></script>
-    <script src="/js/custom.min.js "></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            if ($("input.flat")[0]) {
-                $(document).ready(function () {
-                    $('input.flat').iCheck({
-                        checkboxClass: 'icheckbox_flat-green',
-                        radioClass: 'iradio_flat-green'
-                    });
-                });
-            }
-            $('#check-change-password').on('ifChecked', function () {
-                $('.password-area').removeClass('hidden');
-                $('.input-password').attr('required', 'required');
-            });
-            $('#check-change-password').on('ifUnchecked', function () {
-                $('.password-area').addClass('hidden');
-                $('.input-password').removeAttr('required');
-            });
-            $('#btn-settings').click(function (e) {
-                e.preventDefault();
-                $('#form-settings').parsley().validate();
-                if ($('#form-settings').parsley().isValid()) {
-                    $.ajax({
-                        url: '/settings',
-                        method: 'POST',
-                        dataType: 'JSON',
-                        data: $('#form-settings').serialize(),
-                        error: ERROR_HANDLER,
-                        success: function (data) {
-                            new Noty({
-                                type: 'success',
-                                text: '更新成功',
-                                layout: 'topCenter',
-                                timeout: 3000
-                            }).show();
-                        }
+    <%- include('../common/scripts') %>
+        <script src="/vendors/iCheck/icheck.min.js"></script>
+        <script src="/vendors/parsleyjs/dist/parsley.min.js"></script>
+        <script src="/vendors/parsleyjs/dist/i18n/zh_cn.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if ($("input.flat")[0]) {
+                    $(document).ready(function () {
+                        $('input.flat').iCheck({
+                            checkboxClass: 'icheckbox_flat-green',
+                            radioClass: 'iradio_flat-green'
+                        });
                     });
                 }
+                $('#check-change-password').on('ifChecked', function () {
+                    $('.password-area').removeClass('hidden');
+                    $('.input-password').attr('required', 'required');
+                });
+                $('#check-change-password').on('ifUnchecked', function () {
+                    $('.password-area').addClass('hidden');
+                    $('.input-password').removeAttr('required');
+                });
+                $('#btn-settings').click(function (e) {
+                    e.preventDefault();
+                    $('#form-settings').parsley().validate();
+                    if ($('#form-settings').parsley().isValid()) {
+                        $.ajax({
+                            url: '/settings',
+                            method: 'POST',
+                            dataType: 'JSON',
+                            data: $('#form-settings').serialize(),
+                            error: ERROR_HANDLER,
+                            success: function (data) {
+                                new Noty({
+                                    type: 'success',
+                                    text: '更新成功',
+                                    layout: 'topCenter',
+                                    timeout: 3000
+                                }).show();
+                            }
+                        });
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>

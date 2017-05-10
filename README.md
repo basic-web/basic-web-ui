@@ -37,5 +37,5 @@ $ root@b6029a99608a:/usr/src/app# DEBUG=basic-web-ui:* node app.js
 ### Connect to redis container
 
 ```
-$ docker run -it --link redis:redis --rm redis redis-cli -h redis -p 6379
+$ docker run -it --link redis:redis --net dev --rm redis redis-cli -h redis -p 6379
 ```
