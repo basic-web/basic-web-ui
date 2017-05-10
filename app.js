@@ -16,6 +16,12 @@ const debug = require('debug')('basic-web-ui:app');
 
 const app = express();
 
+const store = new RedisStore({
+    host: config.redis.host,
+    port: config.redis.port,
+    ttl: config.session.ttl
+});
+
 // initial socket.io
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -51,12 +57,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'static')));
-
-const store = new RedisStore({
-    host: config.redis.host,
-    port: config.redis.port,
-    ttl: config.session.ttl
-});
 
 app.use(session({
     name: config.session.name,
