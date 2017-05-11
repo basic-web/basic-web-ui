@@ -160,7 +160,71 @@ var ERROR_HANDLER = function (res) {
 };
 
 var socket = io('/');
-socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
+socket.emit('messages');
+socket.on('failure', function (data) {
+    new Noty({
+        type: 'error',
+        text: data,
+        layout: 'topCenter',
+        timeout: 3000
+    }).show();
 });
+socket.on('messages', function (messages) {
+    $('#message-count').html(messages.total);
+    for (var i = 0; i < messages.data.length; i++) {
+        var content = messages.data[i].content;
+        if (content.length > 30) {
+            content = content.substring(0, 20) + '...';
+        }
+        $('#message-all-item').before(
+            '<li class="message-item" id="message_' + messages.data[i].id + '" data-id="' + messages.data[i].id + '">'
+            + '<a><span><span>' + messages.data[i].title + '</span><span class="time">'
+            + moment(messages.data[i].createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
+            + content + '</span></a></li>');
+    }
+    processMessageClick($('.message-item'));
+});
+socket.on('message', function (message) {
+    $('#message-count').html(message.total);
+    new Noty({
+        type: 'info',
+        text: message.data.title,
+        layout: 'topRight',
+        timeout: 3000
+    }).show();
+    var content = messages.data.content;
+    if (content.length > 30) {
+        content = content.substring(0, 20) + '...';
+    }
+    $('#message-list').append(
+        '<li class="message-item" id="message_' + messages.data.id + '" data-id="' + messages.data.id + '">'
+        + '<a><span><span>' + messages.data.title + '</span><span class="time">'
+        + moment(messages.data.createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
+        + content + '</span></a></li>');
+    processMessageClick($('#message_' + messages.data.id));
+});
+function processMessageClick(messageSelector) {
+    messageSelector.click(function () {
+        var id = $(this).attr('data-id');
+        $.ajax({
+            url: '/message/' + id,
+            method: 'GET',
+            dataType: 'JSON',
+            error: function (req) {
+                new Noty({
+                    type: 'error',
+                    text: req.responseJSON.message,
+                    layout: 'topCenter',
+                    timeout: 3000
+                }).show();
+            },
+            success: function (message) {
+                $('#message_' + id).remove();
+                $('#message-count').html(message.total);
+                $('#message-modal-title').html(message.data.title);
+                $('#message-modal-content').html(message.data.content);
+                $('#message-modal').modal('show');
+            }
+        });
+    });
+}

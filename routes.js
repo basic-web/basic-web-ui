@@ -3,6 +3,7 @@
 const common = require('./modules/common');
 const dashboard = require('./modules/dashboard');
 const users = require('./modules/users');
+const messages = require('./modules/messages');
 
 module.exports = app => {
     app.use((req, res, next) => {
@@ -15,4 +16,5 @@ module.exports = app => {
     common(app);
     dashboard(app);
     users(app);
+    messages(app);
 };

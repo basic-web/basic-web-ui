@@ -57,21 +57,10 @@
                 <li role="presentation" class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-green">6</span>
+                        <span class="badge bg-green" id="message-count"></span>
                     </a>
-                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <li>
-                            <a>
-                                <span>
-                                    <span>John Smith</span>
-                                    <span class="time">3 mins ago</span>
-                                </span>
-                                <span class="message">
-                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                </span>
-                            </a>
-                        </li>
-                        <li>
+                    <ul id="message-list" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        <li id="message-all-item">
                             <div class="text-center">
                                 <a>
                                     <strong>查看所有</strong>
@@ -82,6 +71,23 @@
                     </ul>
                 </li>
             </ul>
+            <div id="message-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                            <h4 class="modal-title" id="message-modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="message-modal-content"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
     </div>
 </div>

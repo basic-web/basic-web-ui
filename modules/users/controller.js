@@ -4,7 +4,7 @@ const fs = require('fs');
 const multiparty = require('multiparty');
 const config = require('../../config');
 const service = require('./service');
-const SeaweeDFS = new require('../../utils/seaweedfs');
+const SeaweeDFS = require('../../utils/seaweedfs');
 const weed = new SeaweeDFS({ master: config.seaweedfs.master });
 
 exports.login = (req, res) => {

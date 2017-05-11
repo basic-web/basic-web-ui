@@ -1,8 +1,16 @@
 'use strict';
 
-module.exports = socket => {
-    socket.emit('news', {hello: 'world'});
-    socket.on('my other event', data => {
-        console.log(data);
+const message = require('./modules/messages/socket');
+
+module.exports = (socket, container) => {
+    if (socket.session.userID) {
+        socket.userID = socket.session.userID;
+        container.add(socket);
+    }
+    socket.on('disconnect', () => {
+        if (socket.session.userID) {
+            container.remove(socket);
+        }
     });
+    message(socket);
 };

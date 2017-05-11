@@ -1,7 +1,7 @@
 'use strict';
 
-const cookie = require('express-session/node_modules/cookie');
-const signature = require('express-session/node_modules/cookie-signature');
+const cookie = require('cookie');
+const signature = require('cookie-signature');
 const config = require('../config');
 
 exports.getSession = cookies => {
