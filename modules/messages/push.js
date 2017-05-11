@@ -17,7 +17,7 @@ module.exports = (container) => {
                 const message = JSON.parse(data.value.toString());
                 _.forIn(container.get(message.dest), socket => {
                     if (socket) {
-                        socket.emit('message', { count: 5, data: message });
+                        socket.emit('message', message);
                     }
                 });
             } catch (err) {
