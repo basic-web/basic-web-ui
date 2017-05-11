@@ -24,6 +24,9 @@ const store = new RedisStore({
 });
 const container = new Container();
 
+// start push message
+require('./modules/messages/push')(container);
+
 // initial socket.io
 const server = require('http').Server(app);
 const io = require('socket.io')(server);

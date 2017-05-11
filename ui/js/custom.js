@@ -185,23 +185,27 @@ socket.on('messages', function (messages) {
     processMessageClick($('.message-item'));
 });
 socket.on('message', function (message) {
-    $('#message-count').html(message.total);
+    var count = 0;
+    if($('#message-count').html()) {
+        count = parseInt($('#message-count').html()) + 1;
+    }
+    $('#message-count').html(count);
     new Noty({
         type: 'info',
         text: message.data.title,
         layout: 'topRight',
         timeout: 3000
     }).show();
-    var content = messages.data.content;
+    var content = message.data.content;
     if (content.length > 30) {
         content = content.substring(0, 20) + '...';
     }
-    $('#message-list').append(
-        '<li class="message-item" id="message_' + messages.data.id + '" data-id="' + messages.data.id + '">'
-        + '<a><span><span>' + messages.data.title + '</span><span class="time">'
-        + moment(messages.data.createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
+    $('#message-list').prepend(
+        '<li class="message-item" id="message_' + message.data.id + '" data-id="' + message.data.id + '">'
+        + '<a><span><span>' + message.data.title + '</span><span class="time">'
+        + moment(message.data.createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
         + content + '</span></a></li>');
-    processMessageClick($('#message_' + messages.data.id));
+    processMessageClick($('#message_' + message.data.id));
 });
 function processMessageClick(messageSelector) {
     messageSelector.click(function () {

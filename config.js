@@ -21,6 +21,12 @@ const config = {
     },
     service: {
         base: 'http://basic-service:9000'
+    },
+    kafka: {
+        message: {
+            'group.id': 'messages_ui_push',
+            'metadata.broker.list': 'kafka:9092'
+        }
     }
 };
 

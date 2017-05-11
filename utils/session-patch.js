@@ -5,6 +5,7 @@ const signature = require('cookie-signature');
 const config = require('../config');
 
 exports.getSession = cookies => {
+    if (!cookies) return undefined;
     const parsedCookies = cookie.parse(cookies);
     var val = undefined;
     if (parsedCookies && parsedCookies[config.session.name]) {
