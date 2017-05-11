@@ -33,7 +33,7 @@ $ docker run -it --rm --name basic-web-ui -p 3000:3000 \
 $ root@b6029a99608a:/usr/src/app# apt-get update
 $ root@b6029a99608a:/usr/src/app# apt-get install libc6-dev liblz4-dev libsasl2-dev -y
 $ root@b6029a99608a:/usr/src/app# rm -rf node_modules
-$ root@b6029a99608a:/usr/src/app# npm install
+$ root@b6029a99608a:/usr/src/app# npm install --registry=https://registry.npm.taobao.org
 $ root@b6029a99608a:/usr/src/app# DEBUG=basic-web-ui:* node app.js
 ```
 
