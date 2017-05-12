@@ -1,14 +1,15 @@
 'use strict';
 
+const service = require('./service');
+
 exports.get = (req, res) => {
-    res.json({
-        total: 2, message: {
-            id: '1',
-            source: null,
-            dest: 'fe57067b-c6c6-4da6-b9e7-f8007001b311',
-            title: 'test',
-            content: 'content',
-            createdTime: '2017-04-28 02:46:05'
+    service.read(req.session.userID, req.params.id).then(message => {
+        res.json(message);
+    }).catch(err => {
+        if (err.name === 'StatusCodeError') {
+            res.status(err.statusCode).json({ message: err.error.message });
+        } else {
+            res.status(500).json({ message: err.message });
         }
     });
 }

@@ -10,3 +10,11 @@ exports.latest = (userID, size) => {
         json: true
     });
 };
+
+exports.read = (userID, messageID) => {
+    return request({
+        method: 'PUT',
+        uri: config.service.base + '/message/' + messageID + '/user/' + userID + '/read',
+        json: true
+    });
+};
