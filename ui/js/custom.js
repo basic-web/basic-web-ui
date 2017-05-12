@@ -169,43 +169,43 @@ socket.on('failure', function (data) {
         timeout: 3000
     }).show();
 });
-socket.on('messages', function (messages) {
-    $('#message-count').html(messages.total);
-    for (var i = 0; i < messages.data.length; i++) {
-        var content = messages.data[i].content;
+socket.on('messages', function (data) {
+    $('#message-count').html(data.total);
+    for (var i = 0; i < data.messages.length; i++) {
+        var content = data.messages[i].content;
         if (content.length > 30) {
             content = content.substring(0, 20) + '...';
         }
         $('#message-all-item').before(
-            '<li class="message-item" id="message_' + messages.data[i].id + '" data-id="' + messages.data[i].id + '">'
-            + '<a><span><span>' + messages.data[i].title + '</span><span class="time">'
-            + moment(messages.data[i].createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
+            '<li class="message-item" id="message_' + data.messages[i].id + '" data-id="' + data.messages[i].id + '">'
+            + '<a><span><span>' + data.messages[i].title + '</span><span class="time">'
+            + moment(data.messages[i].createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
             + content + '</span></a></li>');
     }
     processMessageClick($('.message-item'));
 });
 socket.on('message', function (message) {
     var count = 0;
-    if($('#message-count').html()) {
+    if ($('#message-count').html()) {
         count = parseInt($('#message-count').html()) + 1;
     }
     $('#message-count').html(count);
     new Noty({
         type: 'info',
-        text: message.data.title,
+        text: message.title,
         layout: 'topRight',
         timeout: 3000
     }).show();
-    var content = message.data.content;
+    var content = message.content;
     if (content.length > 30) {
         content = content.substring(0, 20) + '...';
     }
     $('#message-list').prepend(
-        '<li class="message-item" id="message_' + message.data.id + '" data-id="' + message.data.id + '">'
-        + '<a><span><span>' + message.data.title + '</span><span class="time">'
-        + moment(message.data.createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
+        '<li class="message-item" id="message_' + message.id + '" data-id="' + message.id + '">'
+        + '<a><span><span>' + message.title + '</span><span class="time">'
+        + moment(message.createdTime, 'YYYY-MM-DD h:mm:ss').fromNow() + '</span ></span><span class="message">'
         + content + '</span></a></li>');
-    processMessageClick($('#message_' + message.data.id));
+    processMessageClick($('#message_' + message.id));
 });
 function processMessageClick(messageSelector) {
     messageSelector.click(function () {
@@ -222,12 +222,15 @@ function processMessageClick(messageSelector) {
                     timeout: 3000
                 }).show();
             },
-            success: function (message) {
+            success: function (data) {
                 $('#message_' + id).remove();
-                $('#message-count').html(message.total);
-                $('#message-modal-title').html(message.data.title);
-                $('#message-modal-content').html(message.data.content);
+                $('#message-count').html(data.total);
+                $('#message-modal-title').html(data.message.title);
+                $('#message-modal-content').html(data.message.content);
                 $('#message-modal').modal('show');
+                if (data.total > 0 && $('.message-item').length == 0) {
+                    socket.emit('messages');
+                }
             }
         });
     });
