@@ -14,3 +14,6 @@ exports.get = (req, res) => {
     });
 };
 
+exports.page = (req, res) => {
+    res.render('messages/index');
+}
