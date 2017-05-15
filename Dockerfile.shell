@@ -1,0 +1,7 @@
+FROM node:6.10.3
+
+RUN apt-get update \
+  && apt-get install libc6-dev liblz4-dev libsasl2-dev -y
+
+CMD [ "node" ]
+

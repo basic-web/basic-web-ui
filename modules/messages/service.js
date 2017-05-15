@@ -18,3 +18,12 @@ exports.read = (userID, messageID) => {
         json: true
     });
 };
+
+exports.page = (userID, page, q) => {
+    console.log(config.service.base + '/messages/user/' + userID + '?page=' + page + '&q=' + q);
+    return request({
+        method: 'GET',
+        uri: config.service.base + '/messages/user/' + userID + '?page=' + page + '&q=' + q,
+        json: true
+    });
+};

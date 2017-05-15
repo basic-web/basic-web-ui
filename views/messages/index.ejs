@@ -32,19 +32,36 @@
                                         <table class="table table-striped jambo_table bulk_action">
                                             <thead>
                                                 <tr class="headings">
-                                                    <th class="column-title">标题 </th>
-                                                    <th class="column-title">内容 </th>
-                                                    <th class="column-title">状态 </th>
-                                                    <th class="column-title">时间 </th>
+                                                    <th>标题 </th>
+                                                    <th>内容 </th>
+                                                    <th>状态 </th>
+                                                    <th>时间 </th>
+                                                    <th>操作 </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <% if (page.data.length > 0) { 
+                                                    page.data.forEach(function(message) { 
+                                                %>
+                                                    <tr>
+                                                        <td><%=message.title %> </td>
+                                                        <td><%=message.content.length > 30 ? content.substring(0, 20) + '...' : message.content %> </td>
+                                                        <td><%=message.status ? '已读' : '未读' %> </td>
+                                                        <td><%=message.createdTime %> </td>
+                                                        <td><button class="btn btn-sm message-item" data-id="<%=message.id %>"><i class="fa fa-comment"></i> 查看</button> </td>
+                                                    </tr>
+                                                <% }) } else {%>
                                                 <tr>
                                                     <td colspan="4" style="text-align:center">无消息</td>
                                                 </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
-                                        <%- include('../common/pagination', {href:'/messages', current:10, total:100, size:5}) %>
+                                        <% if(typeof q != 'undefined') {%>
+                                        <%- include('../common/pagination', {href:'/messages', current:page.current, total:page.total, size:page.pageSize, params:'q=' + q}) %>
+                                        <%} else {%>
+                                        <%- include('../common/pagination', {href:'/messages', current:page.current, total:page.total, size:page.pageSize}) %>
+                                        <%}%>
                                     </div>
                                 </div>
                             </div>

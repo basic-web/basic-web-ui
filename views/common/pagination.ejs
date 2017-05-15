@@ -16,23 +16,29 @@
             }
         }
         var previous = current > 1, next = count > current;
+        var baseURL = href;
+        if(typeof params != 'undefined') {
+            baseURL = baseURL + '?' + params + '&';
+        } else {
+            baseURL = baseURL + '?'
+        }
 %>
 <nav class="pull-right">
     <ul class="pagination">
         <% if (previous) {%>
-        <li class="disabled"><a href="#">上一页</a></li>
+        <li><a href="<%=baseURL + 'page=' + (current - 1)%>">上一页</a></li>
         <%}%>
         
         <% for (start; start<=end; start++) { %>
             <% if (start == current) { %>
             <li class="active"><a href="javascript:void(0)"><%= start %></a></li>
             <%} else { %>
-            <li><a href="#"><%= start %></a></li>
+            <li><a href="<%=baseURL + 'page=' + start%>"><%= start %></a></li>
             <%}%>
         <%}%>
 
         <% if (next) {%>
-        <li class="disabled"><a href="#">下一页</a></li>
+        <li><a href="<%=baseURL + 'page=' + (current + 1)%>">下一页</a></li>
         <%}%>
     </ul>
 </nav>
