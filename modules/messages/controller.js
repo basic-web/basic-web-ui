@@ -15,5 +15,9 @@ exports.get = (req, res) => {
 };
 
 exports.page = (req, res) => {
-    res.render('messages/index');
+    const page = req.query.page ? req.query.page : 1;
+    const q = req.query.q ? req.query.q : '';
+    service.page(req.session.userID, page, q).then(page => {
+        res.render('messages/index', { page: page, q: q });
+    });
 }
