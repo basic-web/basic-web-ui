@@ -12,4 +12,8 @@ exports.get = (req, res) => {
             res.status(500).json({ message: err.message });
         }
     });
+};
+
+exports.page = (req, res) => {
+    res.render('messages/index');
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../common/head'); %>
+        <title>消息列表</title>
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <%- include('../common/menu'); %>
+                <!-- page content -->
+                <div class="right_col" role="main">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>消息列表</h2>
+                                        <div class="pull-right">
+                                            <form action="/messages" method="get" target="_self">
+                                                <div class="search-form-nav">
+                                                    <input type="text" name="q" class="search-content-nav form-control" value="" placeholder="搜索">
+                                                    <button type="submit" class="btn search-btn-nav glyphicon glyphicon-search"></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <table class="table table-striped jambo_table bulk_action">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">标题 </th>
+                                                    <th class="column-title">内容 </th>
+                                                    <th class="column-title">状态 </th>
+                                                    <th class="column-title">时间 </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align:center">无消息</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <%- include('../common/pagination', {href:'/messages', current:10, total:100, size:5}) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /page content -->
+
+                <%- include('../common/footer') %>
+        </div>
+    </div>
+
+    <%- include('../common/scripts') %>
+</body>
+
+</html>
