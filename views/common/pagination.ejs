@@ -1,0 +1,39 @@
+<%
+    var count = parseInt(total / size);
+    if (total % size != 0) {
+        count = count + 1;
+    }
+    if(count > 1) {
+        var start = 1, end = count;
+        if((count - start) > 10) {
+            if((current - start) < 3) {
+                end = 5;
+            } else if (end - current < 3) {
+                start = end - 4;
+            } else {
+                start = current - 2;
+                end = current + 2;
+            }
+        }
+        var previous = current > 1, next = count > current;
+%>
+<nav class="pull-right">
+    <ul class="pagination">
+        <% if (previous) {%>
+        <li class="disabled"><a href="#">上一页</a></li>
+        <%}%>
+        
+        <% for (start; start<=end; start++) { %>
+            <% if (start == current) { %>
+            <li class="active"><a href="javascript:void(0)"><%= start %></a></li>
+            <%} else { %>
+            <li><a href="#"><%= start %></a></li>
+            <%}%>
+        <%}%>
+
+        <% if (next) {%>
+        <li class="disabled"><a href="#">下一页</a></li>
+        <%}%>
+    </ul>
+</nav>
+<%}%>

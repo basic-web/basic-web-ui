@@ -39,9 +39,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr><td colspan="4" style="text-align:center">无消息</td></tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align:center">无消息</td>
+                                                </tr>
                                             </tbody>
                                         </table>
+                                        <%- include('../common/pagination', {href:'/messages', current:10, total:100, size:5}) %>
                                     </div>
                                 </div>
                             </div>
