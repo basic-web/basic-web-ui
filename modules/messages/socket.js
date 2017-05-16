@@ -8,11 +8,7 @@ module.exports = socket => {
         service.latest(socket.session.userID, 6).then(data => {
             socket.emit('messages', data);
         }).catch(err => {
-            if (err.name === 'StatusCodeError') {
-                socket.emit('failure', err.error.message);
-            } else {
-                socket.emit('failure', err.message);
-            }
+            socket.emit(err.message);
         });
     });
 };
