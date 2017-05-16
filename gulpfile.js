@@ -7,6 +7,11 @@ var gulp = require('gulp'),
 
 var DEST = 'static/';
 
+gulp.task('images', function() {
+    return gulp.src('ui/images/*')
+        .pipe(gulp.dest(DEST + '/images'));
+});
+
 gulp.task('scripts', function () {
     return gulp.src([
         'ui/js/helpers/*.js',
@@ -35,4 +40,4 @@ gulp.task('sass-minify', function () {
 });
 
 // Default Task
-gulp.task('default', ['scripts', 'sass', 'sass-minify']);
+gulp.task('default', ['images', 'scripts', 'sass', 'sass-minify']);
