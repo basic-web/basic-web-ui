@@ -210,6 +210,7 @@ socket.on('message', function (message) {
 function processMessageClick(messageSelector) {
     messageSelector.click(function () {
         var id = $(this).attr('data-id');
+        var elem = $(this);
         $.ajax({
             url: '/message/' + id,
             method: 'GET',
@@ -228,6 +229,9 @@ function processMessageClick(messageSelector) {
                 $('#message-modal-title').html(data.message.title);
                 $('#message-modal-content').html(data.message.content);
                 $('#message-modal').modal('show');
+                if (elem.hasClass('btn')) {
+                    elem.parent().prev().prev().html('已读');
+                }
                 if (data.total > 0 && $('.message-item').length == 0) {
                     socket.emit('messages');
                 }
