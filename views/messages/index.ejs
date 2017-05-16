@@ -46,7 +46,7 @@
                                                     <tr>
                                                         <td><%=message.title %> </td>
                                                         <td><%=message.content.length > 30 ? message.content.substring(0, 20) + '...' : message.content %> </td>
-                                                        <td><%=message.status ? '已读' : '未读' %> </td>
+                                                        <td><%=message.readed ? '已读' : '未读' %> </td>
                                                         <td><%=message.createdTime %> </td>
                                                         <td><button class="btn btn-sm message-item" data-id="<%=message.id %>"><i class="fa fa-comment"></i> 查看</button> </td>
                                                     </tr>
