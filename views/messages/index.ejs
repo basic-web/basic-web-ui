@@ -21,7 +21,7 @@
                                         <div class="pull-right">
                                             <form action="/messages" method="get" target="_self">
                                                 <div class="search-form-nav">
-                                                    <input type="text" name="q" class="search-content-nav form-control" value="" placeholder="搜索">
+                                                    <input type="text" name="q" class="search-content-nav form-control" value="<%= (typeof q != 'undefined')? q : '' %>" placeholder="搜索">
                                                     <button type="submit" class="btn search-btn-nav glyphicon glyphicon-search"></button>
                                                 </div>
                                             </form>
@@ -40,19 +40,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <% if (page.data.length > 0) { 
+                                                <% if (page.data && page.data.length > 0) { 
                                                     page.data.forEach(function(message) { 
                                                 %>
                                                     <tr>
                                                         <td><%=message.title %> </td>
-                                                        <td><%=message.content.length > 30 ? content.substring(0, 20) + '...' : message.content %> </td>
+                                                        <td><%=message.content.length > 30 ? message.content.substring(0, 20) + '...' : message.content %> </td>
                                                         <td><%=message.status ? '已读' : '未读' %> </td>
                                                         <td><%=message.createdTime %> </td>
                                                         <td><button class="btn btn-sm message-item" data-id="<%=message.id %>"><i class="fa fa-comment"></i> 查看</button> </td>
                                                     </tr>
                                                 <% }) } else {%>
                                                 <tr>
-                                                    <td colspan="4" style="text-align:center">无消息</td>
+                                                    <td colspan="5" style="text-align:center">无消息</td>
                                                 </tr>
                                                 <% } %>
                                             </tbody>

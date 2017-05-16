@@ -20,10 +20,10 @@ exports.read = (userID, messageID) => {
 };
 
 exports.page = (userID, page, q) => {
-    console.log(config.service.base + '/messages/user/' + userID + '?page=' + page + '&q=' + q);
+    console.log(config.service.base + '/messages/user/' + userID + '?page=' + page + '&q=' + encodeURIComponent(q));
     return request({
         method: 'GET',
-        uri: config.service.base + '/messages/user/' + userID + '?page=' + page + '&q=' + q,
+        uri: config.service.base + '/messages/user/' + userID + '?page=' + page + '&q=' + encodeURIComponent(q),
         json: true
     });
 };

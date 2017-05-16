@@ -20,11 +20,7 @@ exports.login = (req, res) => {
             res.cookie('current-page', '/dashboard', { encode: function (data) { return data; } });
             res.json({});
         }).catch(err => {
-            if (err.name === 'StatusCodeError') {
-                res.status(err.statusCode).json({ message: err.error.message });
-            } else {
-                res.status(500).json({ message: err.message });
-            }
+            res.status(err.statusCode || 500).json({ message: err.message });
         });
     });
 };
@@ -43,11 +39,7 @@ exports.register = (req, res) => {
             res.cookie('current-page', '/dashboard', { encode: function (data) { return data; } });
             res.json({});
         }).catch(err => {
-            if (err.name === 'StatusCodeError') {
-                res.status(err.statusCode).json({ message: err.error.message });
-            } else {
-                res.status(500).json({ message: err.message });
-            }
+            res.status(err.statusCode || 500).json({ message: err.message });
         });
     });
 };
@@ -66,11 +58,7 @@ exports.settings = (req, res) => {
             nickname: user.nickname
         });
     }).catch(err => {
-        if (err.name === 'StatusCodeError') {
-            res.status(err.statusCode).render('common/error', { status: err.statusCode, message: err.error.message });
-        } else {
-            res.status(500).render('common/error', { status: 500, message: err.message });
-        }
+        res.status(err.statusCode || 500).render('common/error', { status: err.statusCode || 500, message: err.message });
     });
 };
 
@@ -91,11 +79,7 @@ exports.do_settings = (req, res) => {
         service.modify(req.session.userID, req.body).then(user => {
             res.json({});
         }).catch(err => {
-            if (err.name === 'StatusCodeError') {
-                res.status(err.statusCode).json({ message: err.error.message });
-            } else {
-                res.status(500).json({ message: err.message });
-            }
+            res.status(err.statusCode || 500).json({ message: err.message });
         });
     });
 };
@@ -106,11 +90,7 @@ exports.avatar = (req, res) => {
             head: user.head
         });
     }).catch(err => {
-        if (err.name === 'StatusCodeError') {
-            res.status(err.statusCode).render('common/error', { status: err.statusCode, message: err.error.message });
-        } else {
-            res.status(500).render('common/error', { status: 500, message: err.message });
-        }
+        res.status(err.statusCode || 500).render('common/error', { status: err.statusCode || 500, message: err.message });
     });
 };
 
@@ -132,11 +112,7 @@ exports.do_avatar = (req, res, next) => {
             service.modify(req.session.userID, { head: '/file/' + result.fid }).then(user => {
                 res.json({});
             }).catch(err => {
-                if (err.name === 'StatusCodeError') {
-                    res.status(err.statusCode).json({ message: err.error.message });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                res.status(err.statusCode || 500).json({ message: err.message });
             });
         });
     });

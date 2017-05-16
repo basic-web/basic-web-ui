@@ -9,7 +9,7 @@ module.exports = app => {
     });
 
     app.get('/base', (req, res) => {
-        userService.get(req.session.userID).then(user => { 
+        userService.get(req.session.userID).then(user => {
             res.json({
                 appname: config.app.name,
                 user: {
@@ -18,11 +18,7 @@ module.exports = app => {
                 }
             });
         }).catch(err => {
-            if (err.name === 'StatusCodeError') {
-                res.status(err.statusCode).json(err.error);
-            } else {
-                res.status(500).json({ message: err.message });
-            }
+            res.status(err.statusCode || 500).json({ message: err.message });
         });
     });
 
