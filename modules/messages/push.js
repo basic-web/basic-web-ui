@@ -2,7 +2,7 @@
 
 const Kafka = require('node-rdkafka');
 const _ = require('lodash');
-const debug = require('debug')('basic-web-ui:debug');
+const debug = require('debug')('basic-web-ui:push');
 const config = require('../../config');
 
 module.exports = (container) => {
