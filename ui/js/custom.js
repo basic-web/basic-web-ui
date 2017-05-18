@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 
-var $BODY = $('body'),
+var CURRENT_URL = window.location.href.substring(window.location.href.indexOf(window.location.pathname)).split('#')[0],
+    $BODY = $('body'),
     $MENU_TOGGLE = $('#menu_toggle'),
     $SIDEBAR_MENU = $('#sidebar-menu'),
     $SIDEBAR_FOOTER = $('.sidebar-footer'),
@@ -74,7 +75,15 @@ $(document).ready(function () {
     });
 
     // check active menu
-    var cp = document.cookie.replace(/(?:(?:^|.*;\s*)current-page\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var cp = undefined;
+    $SIDEBAR_MENU.find('a').each(function(a) {
+        if($(this).attr('href') == CURRENT_URL) {
+            cp = CURRENT_URL;
+        }
+    });
+    if (!cp) {
+       cp = document.cookie.replace(/(?:(?:^|.*;\s*)current-page\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    }
     $SIDEBAR_MENU.find('a[href="' + cp + '"]').parent('li').addClass('current-page');
 
     $SIDEBAR_MENU.find('a').filter(function () {
