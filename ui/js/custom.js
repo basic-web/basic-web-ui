@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var CURRENT_URL = window.location.href.substring(window.location.href.indexOf(window.location.pathname)).split('#')[0],
+var CURRENT_URL = window.location.href.replace(/https?:\/\/[0-9a-zA-Z.:]+/, '').split('#')[0],
     $BODY = $('body'),
     $MENU_TOGGLE = $('#menu_toggle'),
     $SIDEBAR_MENU = $('#sidebar-menu'),
